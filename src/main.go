@@ -41,7 +41,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 
     err = conn.ReadJSON(&msg)
     if err != nil {
-      log.Printf("fcukin error: %v", err)
+      log.Printf("connection error: %v", err)
       break
     }
 
@@ -56,13 +56,12 @@ func handleMessages() {
   for {
     // Grab next message from broadcast channel and...
     msg := <- broadcast
+    log.Printf("received: %s", msg)
     // ...send it to every connected client
     for client := range clients {
-      log.Printf("received: %s", msg)
-
       err := client.WriteJSON(msg)
       if err != nil {
-        log.Printf("error: %v", err)
+        log.Printf("broadcast error: %v", err)
         client.Close()
         delete(clients, client)
       }
@@ -71,5 +70,6 @@ func handleMessages() {
 }
 
 type Message struct {
-  Type string `json:"type"`
+  Type      string `json:"type"`
+  Timestamp string `json:"timestamp"`
 }
