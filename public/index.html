@@ -34,7 +34,7 @@
       var caller = document.getElementById("caller")
 
       caller.addEventListener("click", function(e) {
-        ws.send("bloobs")
+        ws.send(JSON.stringify({type: "web-bloobs"}))
       })
 
       ws.addEventListener("message", function(e) {
