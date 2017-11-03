@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SocketToMe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+    }
+    main {
+      min-height: 100vh;
+      display: flex;
+    }
+    #caller {
+      margin: auto;
+      font-size: 1.33em;
+      letter-spacing: 0.1em;
+      padding: 0.33em 0.66em;
+      background: lightgrey;
+      border-radius: 3px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <button id="caller">SOCKET TO ME</button>
+  </main>
+
+  <script>
+    (function() {
+      var ws = new WebSocket("ws://bb.ngrok.io/ws")
+      var caller = document.getElementById("caller")
+
+      caller.addEventListener("click", function(e) {
+        ws.send("bloobs")
+      })
+
+      ws.addEventListener("message", function(e) {
+        var data = JSON.parse(e.data)
+        console.log(data)
+      })
+    })()
+  </script>
+</body>
+</html>
