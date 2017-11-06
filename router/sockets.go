@@ -5,6 +5,7 @@ import (
 
   "net/http"
   "log"
+  "github.com/julienschmidt/httprouter"
   "github.com/gorilla/websocket"
 )
 
@@ -12,15 +13,11 @@ var upgrader = websocket.Upgrader{}
 var Clients = make(map[*websocket.Conn]bool) // connected clients
 var Broadcast = make(chan models.Message) // broadcast channel
 
-func PrintBloobs() {
-  log.Println("bloobs")
-}
-
-func SocketHandler(w http.ResponseWriter, r *http.Request) {
+func SocketHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
   // Upgrade initial GET to a websocket
   conn, err := upgrader.Upgrade(w, r, nil)
-    log.Fatal(err)
   if err != nil {
+    log.Fatal("whoops", err)
     return
   }
 

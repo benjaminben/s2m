@@ -1,7 +1,6 @@
 package router
 
 import (
-  "log"
   "net/http"
   "html/template"
   "github.com/julienschmidt/httprouter"
@@ -12,9 +11,7 @@ import (
 func Make() *httprouter.Router {
   Router := httprouter.New()
 
-  // Router.Get("/", )
-  // Router.GET("/ws", SocketHandler)
-  // Router.GetFunc("/", http.HandlerFunc(defaultHandler))
+  Router.GET("/ws", SocketHandler)
   Router.GET("/", defaultHandler)
 
   return Router
