@@ -29,6 +29,7 @@ func SocketHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
   }
 
   Clients[conn] = true
+  log.Println("clients", len(Clients))
 
   for {
     var msg models.Message

@@ -5,6 +5,7 @@ import (
   "net/http"
   "html/template"
   "github.com/julienschmidt/httprouter"
+  "github.com/gorilla/websocket"
 
   "../models"
 )
@@ -14,7 +15,7 @@ var Rooms = make(map[string]*models.Room)
 func Make() *httprouter.Router {
   Router := httprouter.New()
 
-  // Router.GET("/ws", SocketHandler)
+  Router.GET("/ws", SocketHandler)
   // Router.GET("/ws", CreateNamespace)
   Router.GET("/", indexHandler)
   Router.GET("/room/:id", webHandler)
@@ -42,21 +43,25 @@ func webHandler(res http.ResponseWriter, req *http.Request, ps httprouter.Params
 }
 
 func findOrCreateRoom(id string) *models.Room {
-  if room, ok := Rooms[id]; ok {
-    log.Println("found", room.ID)
-    return room
+  room, found := Rooms[id]
+  if found {
+    // log.Println("found", room.ID)
+    // return room
   } else {
     log.Println("no room found")
-    room := &models.Room{ID: id}
+    room = &models.Room{ID: id, Clients: make(map[*websocket.Conn]bool)}
     Rooms[room.ID] = room
+    // Start listening for incoming messages
+    go room.RunSocket()
     log.Println("Rooms length now", len(Rooms))
-    return room
   }
+  return room
 }
 
 func roomSocketHandler(res http.ResponseWriter, req *http.Request, ps httprouter.Params) {
   if room, found := Rooms[ps.ByName("id")]; found {
-    log.Println("hello from", room.ID)
+    // log.Println("hello from", room.ID)
+    room.SocketHandler(res, req, ps)
   } else {
     log.Println("no room found at", ps.ByName("id"))
   }

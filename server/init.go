@@ -14,9 +14,4 @@ func Init() {
 
   log.Println("Party on :7000...")
   log.Fatal(http.ListenAndServe(":7000", r))
-  // err := http.ListenAndServe(":7000", router.Routes)
-  // if err != nil {
-  //   log.Fatal("ListenAndServe: ", err)
-  //   return
-  // }
 }

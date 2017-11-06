@@ -28,6 +28,7 @@ func (r *Room) SocketHandler(res http.ResponseWriter, req *http.Request, _ httpr
   }
 
   r.Clients[conn] = true
+  log.Println(r.ID, "connected clients now", len(r.Clients))
 
   for {
     var msg Message
