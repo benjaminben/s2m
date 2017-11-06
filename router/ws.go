@@ -1,4 +1,4 @@
-package server
+package router
 
 import (
   "../models"
@@ -8,15 +8,19 @@ import (
   "github.com/gorilla/websocket"
 )
 
+var upgrader = websocket.Upgrader{}
 var Clients = make(map[*websocket.Conn]bool) // connected clients
 var Broadcast = make(chan models.Message) // broadcast channel
-var Upgrader = websocket.Upgrader{}
 
-func HandleConnections(w http.ResponseWriter, r *http.Request) {
+func PrintBloobs() {
+  log.Println("bloobs")
+}
+
+func SocketHandler(w http.ResponseWriter, r *http.Request) {
   // Upgrade initial GET to a websocket
-  conn, err := Upgrader.Upgrade(w, r, nil)
-  if err != nil {
+  conn, err := upgrader.Upgrade(w, r, nil)
     log.Fatal(err)
+  if err != nil {
     return
   }
 
@@ -38,7 +42,7 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
   defer conn.Close()
 }
 
-func HandleMessages() {
+func RunSockets() {
   for {
     // Grab next message from broadcast channel and...
     msg := <- Broadcast

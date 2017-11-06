@@ -3,20 +3,20 @@ package server
 import (
   "net/http"
   "log"
+
+  "../router"
 )
 
 func Init() {
-  fs := http.FileServer(http.Dir("./static"))
-  http.Handle("/", fs)
-
-  http.HandleFunc("/ws", HandleConnections)
-
+  r := router.Make()
   // Start listening for incoming messages
-  go HandleMessages()
+  go router.RunSockets()
 
   log.Println("Party on :7000...")
-  err := http.ListenAndServe(":7000", nil)
-  if err != nil {
-    log.Fatal("ListenAndServe: ", err)
-  }
+  log.Fatal(http.ListenAndServe(":7000", r))
+  // err := http.ListenAndServe(":7000", router.Routes)
+  // if err != nil {
+  //   log.Fatal("ListenAndServe: ", err)
+  //   return
+  // }
 }
