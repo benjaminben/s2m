@@ -44,12 +44,13 @@ func webHandler(res http.ResponseWriter, req *http.Request, ps httprouter.Params
 
 func findOrCreateRoom(id string) *models.Room {
   room, found := Rooms[id]
-  if found {
-    // log.Println("found", room.ID)
-    // return room
-  } else {
+  if !found {
     log.Println("no room found")
-    room = &models.Room{ID: id, Clients: make(map[*websocket.Conn]bool)}
+    room = &models.Room{
+      ID: id,
+      Clients: make(map[*websocket.Conn]bool),
+      Broadcast: make(chan models.Message),
+    }
     Rooms[room.ID] = room
     // Start listening for incoming messages
     go room.RunSocket()
@@ -60,11 +61,9 @@ func findOrCreateRoom(id string) *models.Room {
 
 func roomSocketHandler(res http.ResponseWriter, req *http.Request, ps httprouter.Params) {
   if room, found := Rooms[ps.ByName("id")]; found {
-    // log.Println("hello from", room.ID)
     room.SocketHandler(res, req, ps)
   } else {
     log.Println("no room found at", ps.ByName("id"))
   }
-
 }
 

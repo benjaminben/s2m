@@ -49,6 +49,7 @@ func SocketHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 
 func RunSockets() {
   for {
+    log.Println("sup")
     // Grab next message from broadcast channel and...
     msg := <- Broadcast
     log.Printf("received: %s", msg)
