@@ -3,19 +3,26 @@ package router
 import (
   "../models"
 
-  "net/http"
   "log"
+  "fmt"
+  "net/http"
   "github.com/julienschmidt/httprouter"
   "github.com/gorilla/websocket"
 )
 
-var upgrader = websocket.Upgrader{}
+var Upgrader = websocket.Upgrader{}
 var Clients = make(map[*websocket.Conn]bool) // connected clients
 var Broadcast = make(chan models.Message) // broadcast channel
 
+
+func CreateNamespace(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+  fmt.Printf("Broadcast: (%v, %T)\n", Broadcast, Broadcast)
+  return
+}
+
 func SocketHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
   // Upgrade initial GET to a websocket
-  conn, err := upgrader.Upgrade(w, r, nil)
+  conn, err := Upgrader.Upgrade(w, r, nil)
   if err != nil {
     log.Fatal("whoops", err)
     return

@@ -31,14 +31,16 @@
   </style>
 </head>
 <body>
-  <main>
-    <h1>{{.RoomID}}</h1>
+  <main data-room={{.ID}}>
+    <h1>{{.ID}}</h1>
     <button id="caller">SOCKET TO ME</button>
     <p id="logger">logger</p>
   </main>
 
   <script>
     (function() {
+      var roomID = document.querySelector("main").getAttribute("data-room")
+      // var ws = new WebSocket("ws://bb.ngrok.io/room/" + roomID)
       var ws = new WebSocket("ws://bb.ngrok.io/ws")
       var caller = document.getElementById("caller")
       var logger = document.getElementById("logger")
