@@ -11,8 +11,8 @@ var upgrader = websocket.Upgrader{}
 
 type Room struct {
   ID        string                   `json:"id"`
-  Clients   map[*websocket.Conn]bool
-  Broadcast chan Message
+  Clients   map[*websocket.Conn]bool `json:"-"`
+  Broadcast chan Message             `json:"-"`
 }
 
 func (r *Room) PollClients() {

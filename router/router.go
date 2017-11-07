@@ -3,6 +3,7 @@ package router
 import (
   "log"
   "net/http"
+  "encoding/json"
   "html/template"
   "github.com/julienschmidt/httprouter"
   "github.com/gorilla/websocket"
@@ -15,11 +16,13 @@ var Rooms = make(map[string]*models.Room)
 func Make() *httprouter.Router {
   Router := httprouter.New()
 
-  Router.GET("/ws", SocketHandler)
-  // Router.GET("/ws", CreateNamespace)
+  Router.GET("/ws", SocketHandler) // GENERAL / DEBUG
+
   Router.GET("/", indexHandler)
   Router.GET("/room/:id", webHandler)
   Router.GET("/room/:id/ws", roomSocketHandler)
+
+  Router.GET("/game/:id", gameHandler)
 
   return Router
 }
@@ -42,7 +45,22 @@ func webHandler(res http.ResponseWriter, req *http.Request, ps httprouter.Params
   }
 }
 
-func findOrCreateRoom(id string) *models.Room {
+func gameHandler(res http.ResponseWriter, req *http.Request, ps httprouter.Params) {
+  log.Println("unity calling...", ps.ByName("id"))
+  room := findOrCreateRoom(ps.ByName("id"))
+
+  // Send the room ID as a thumbs up
+  js, err := json.Marshal(room)
+  if err != nil {
+    http.Error(res, err.Error(), http.StatusInternalServerError)
+    return
+  }
+
+  res.Header().Set("Content-Type", "application/json")
+  res.Write(js)
+}
+
+func findOrCreateRoom(id string) (*models.Room) {
   room, found := Rooms[id]
   if !found {
     log.Println("no room found")
