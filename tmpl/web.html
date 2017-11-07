@@ -28,25 +28,59 @@
       border-radius: 3px;
       border: 1px solid black;
     }
+
+    #map {
+      width: 300px;
+      height: 300px;
+      border: 1px solid black;
+      display: inline-block;
+      margin: 1em;
+      vertical-align: middle;
+    }
   </style>
 </head>
 <body>
   <main data-room={{.ID}}>
     <h1>{{.ID}}</h1>
-    <button id="caller">SOCKET TO ME</button>
-    <p id="logger">logger</p>
+
+    <canvas id="map"></canvas>
+
+    <span style="display: inline-block; vertical-align: middle">
+      <button id="caller">SOCKET TO ME</button>
+      <p id="logger">logger</p>
+    </span>
   </main>
 
   <script>
     (function() {
       var roomID = document.querySelector("main").getAttribute("data-room")
-      var ws = new WebSocket("ws://bb.ngrok.io/room/" + roomID + "/ws")
+      var ws     = new WebSocket("ws://bb.ngrok.io/room/" + roomID + "/ws")
       // var ws = new WebSocket("ws://bb.ngrok.io/ws")
       var caller = document.getElementById("caller")
       var logger = document.getElementById("logger")
+      var map    = document.getElementById("map")
 
       caller.addEventListener("click", function(e) {
-        ws.send(JSON.stringify({type: "web", timestamp: Date.now().toString()}))
+        ws.send(JSON.stringify(new Dispatch(
+          "web",
+          Date.now().toString(),
+          null
+        )))
+      })
+
+      map.addEventListener("click", function(e) {
+        var mapDims = map.getBoundingClientRect()
+        var x = e.clientX
+        var y = e.clientY
+        var mapX = (x - mapDims.x) / mapDims.width
+        var mapY = (y - mapDims.y) / mapDims.height
+
+        var msg = new Dispatch(
+          "drop",
+          Date.now().toString(),
+          {coords: [mapX, mapY]}
+        )
+        ws.send(JSON.stringify(msg))
       })
 
       ws.addEventListener("message", function(e) {
@@ -54,6 +88,14 @@
         logger.innerHTML = data.type + " " + data.timestamp
         console.log(data)
       })
+
+      function Dispatch(type, timestamp, params) {
+        this.type = type
+        this.timestamp = timestamp
+        Object.keys(params || {}).forEach(function(p) {
+          this[p] = params[p]
+        }.bind(this))
+      }
     })()
   </script>
 </body>
