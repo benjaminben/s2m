@@ -62,9 +62,8 @@
 
       caller.addEventListener("click", function(e) {
         ws.send(JSON.stringify(new Dispatch(
-          "web",
-          Date.now().toString(),
-          null
+          "client",
+          {client: "web"}
         )))
       })
 
@@ -77,7 +76,6 @@
 
         var msg = new Dispatch(
           "drop",
-          Date.now().toString(),
           {coords: [mapX, mapY]}
         )
         ws.send(JSON.stringify(msg))
@@ -89,12 +87,10 @@
         console.log(data)
       })
 
-      function Dispatch(type, timestamp, params) {
+      function Dispatch(type, data) {
         this.type = type
-        this.timestamp = timestamp
-        Object.keys(params || {}).forEach(function(p) {
-          this[p] = params[p]
-        }.bind(this))
+        this.timestamp = Date.now()
+        this.data = data
       }
     })()
   </script>

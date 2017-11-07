@@ -6,13 +6,14 @@ import (
   "log"
   "fmt"
   "net/http"
+  "encoding/json"
   "github.com/julienschmidt/httprouter"
   "github.com/gorilla/websocket"
 )
 
 var Upgrader = websocket.Upgrader{}
 var Clients = make(map[*websocket.Conn]bool) // connected clients
-var Broadcast = make(chan models.Message) // broadcast channel
+var Broadcast = make(chan models.Envelope) // broadcast channel
 
 
 func CreateNamespace(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -32,15 +33,23 @@ func SocketHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
   log.Println("clients", len(Clients))
 
   for {
-    var msg models.Message
+    var msg json.RawMessage
+    env := models.Envelope{
+      Data: &msg,
+    }
 
-    err = conn.ReadJSON(&msg)
+    // if err := json.Unmarshal([]byte(input), &env); err != nil {
+    //   log.Fatal(err)
+    //   break
+    // }
+
+    err = conn.ReadJSON(&env)
     if err != nil {
       log.Printf("connection error: %v", err)
       break
     }
 
-    Broadcast <- msg
+    Broadcast <- env
   }
 
   // Close connection when function returns
@@ -49,13 +58,12 @@ func SocketHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 
 func RunSockets() {
   for {
-    log.Println("sup")
     // Grab next message from broadcast channel and...
-    msg := <- Broadcast
-    log.Printf("received: %s", msg)
+    env := <- Broadcast
+    log.Printf("received: %s", env)
     // ...send it to every connected client
     for client := range Clients {
-      err := client.WriteJSON(msg)
+      err := client.WriteJSON(env)
       if err != nil {
         log.Printf("broadcast error: %v", err)
         client.Close()

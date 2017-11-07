@@ -67,7 +67,7 @@ func findOrCreateRoom(id string) (*models.Room) {
     room = &models.Room{
       ID: id,
       Clients: make(map[*websocket.Conn]bool),
-      Broadcast: make(chan models.Message),
+      Broadcast: make(chan models.Envelope),
     }
     Rooms[room.ID] = room
     // Start listening for incoming messages
