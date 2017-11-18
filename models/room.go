@@ -56,6 +56,10 @@ func (r *Room) SocketHandler(res http.ResponseWriter, req *http.Request, _ httpr
       }
       var coords []float64 = d.Coords
       log.Println("hella coords:", coords)
+    case "sdp":
+      log.Println("handling sdp")
+    case "ice":
+      log.Println("handling ice")
     default:
       log.Println("Unknown message type: %q", env.Type)
       break
