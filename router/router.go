@@ -78,6 +78,7 @@ func findOrCreateRoom(id string) (*models.Room) {
 }
 
 func roomSocketHandler(res http.ResponseWriter, req *http.Request, ps httprouter.Params) {
+  log.Println("hello client")
   if room, found := Rooms[ps.ByName("id")]; found {
     room.SocketHandler(res, req, ps)
   } else {

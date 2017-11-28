@@ -1,6 +1,8 @@
 package models
 
 import (
+  // "net/http/httputil"
+  // "fmt"
   "log"
   "net/http"
   "encoding/json"
@@ -21,6 +23,13 @@ func (r *Room) PollClients() {
 }
 
 func (r *Room) SocketHandler(res http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+  // Save a copy of this request for debugging.
+  // requestDump, err := httputil.DumpRequest(req, true)
+  // if err != nil {
+  //   fmt.Println(err)
+  // }
+  // fmt.Println(string(requestDump))
+
   // Upgrade initial GET to a websocket
   conn, err := upgrader.Upgrade(res, req, nil)
   if err != nil {
@@ -56,6 +65,11 @@ func (r *Room) SocketHandler(res http.ResponseWriter, req *http.Request, _ httpr
       }
       var coords []float64 = d.Coords
       log.Println("hella coords:", coords)
+    case "frame":
+      var f Frame
+      if err := json.Unmarshal(msg, &f); err != nil {
+        log.Println("Error reading frame:", err)
+      }
     case "sdp":
       log.Println("handling sdp")
     case "ice":

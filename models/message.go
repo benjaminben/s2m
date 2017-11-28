@@ -13,3 +13,7 @@ type Client struct {
 type Drop struct {
   Coords []float64 `json:"coords"`
 }
+
+type Frame struct {
+  Bytes []byte `json:"bytes"`
+}
