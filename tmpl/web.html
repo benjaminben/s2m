@@ -54,8 +54,11 @@
 
   <script>
     // (function() {
+      var ssl = window.location.protocol.match('https')
+      var wsProtocol = ssl ? "wss" : "ws"
+
       var roomID = document.querySelector("main").getAttribute("data-room")
-      var ws     = new WebSocket("wss://bb.ngrok.io/room/" + roomID + "/ws")
+      var ws     = new WebSocket(wsProtocol + "://" + window.location.host + "/room/" + roomID + "/ws")
       // var ws = new WebSocket("ws://bb.ngrok.io/ws")
       var caller = document.getElementById("caller")
       var logger = document.getElementById("logger")
