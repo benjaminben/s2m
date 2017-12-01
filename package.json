@@ -5,8 +5,7 @@
   "version": "1.0.0",
   "description": "simple spa",
   "scripts": {
-    "start": "webpack --watch",
-    "deploy": "git subtree push --prefix dist origin gh-pages"
+    "start": "webpack --watch & go run main.go",
   },
   "devDependencies": {
     "autoprefixer": "^7.1.6",
