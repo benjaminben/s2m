@@ -24,6 +24,7 @@ func Make() *httprouter.Router {
 
   Router.GET("/game/:id", gameHandler)
 
+  Router.ServeFiles("/static/*filepath", http.Dir("static/"))
   return Router
 }
 
@@ -85,4 +86,3 @@ func roomSocketHandler(res http.ResponseWriter, req *http.Request, ps httprouter
     log.Println("no room found at", ps.ByName("id"))
   }
 }
-
