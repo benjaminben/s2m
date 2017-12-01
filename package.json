@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "description": "simple spa",
   "scripts": {
-    "start": "webpack --watch & go run main.go",
+    "start": "webpack --watch & go run main.go"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.6",
