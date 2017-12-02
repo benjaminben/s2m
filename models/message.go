@@ -17,3 +17,7 @@ type Drop struct {
 type Frame struct {
   Bytes []byte `json:"bytes"`
 }
+
+type Scene struct {
+  Name string `json:"name"`
+}

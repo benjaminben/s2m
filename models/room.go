@@ -70,6 +70,11 @@ func (r *Room) SocketHandler(res http.ResponseWriter, req *http.Request, _ httpr
       if err := json.Unmarshal(msg, &f); err != nil {
         log.Println("Error reading frame:", err)
       }
+    case "scene":
+      var s Scene
+      if err := json.Unmarshal(msg, &s); err != nil {
+        log.Println("Error reading scene:", err)
+      }
     case "sdp":
       log.Println("handling sdp")
     case "ice":
