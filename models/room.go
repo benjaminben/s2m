@@ -4,6 +4,7 @@ import (
   // "net/http/httputil"
   // "fmt"
   "log"
+  "time"
   "net/http"
   "encoding/json"
   "github.com/julienschmidt/httprouter"
@@ -39,6 +40,7 @@ func (r *Room) SocketHandler(res http.ResponseWriter, req *http.Request, _ httpr
 
   r.Clients[conn] = true
   log.Println(r.ID, "connected clients now", len(r.Clients))
+  conn.WriteJSON(Envelope{"connected", int64(time.Now().Unix()), nil})
 
   for {
     var msg json.RawMessage

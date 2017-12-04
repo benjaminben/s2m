@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Console from './Console'
 
 class Stage extends Component {
   constructor(props) {
@@ -10,8 +11,8 @@ class Stage extends Component {
   }
 
   componentWillReceiveProps(props, prevProps) {
-    if (props.ws && !prevProps.ws) {
-      props.ws.addEventListener("message", this.awaitUnity)
+    if (props.connection && !prevProps.connection) {
+      props.connection.addEventListener("message", this.awaitUnity)
     }
   }
 
@@ -19,10 +20,10 @@ class Stage extends Component {
     let d = JSON.parse(e.data)
     console.log(d)
     if (d.type === 'client' && d.data === 'unity') {
-      this.props.ws.removeEventListener("message", this.awaitUnity)
+      this.props.connection.removeEventListener("message", this.awaitUnity)
       this.props.setReady()
 
-      this.props.ws.addEventListener("message", this.awaitSceneChange)
+      this.props.connection.addEventListener("message", this.awaitSceneChange)
     }
   }
 
@@ -40,12 +41,7 @@ class Stage extends Component {
     return(
       <div id="Stage">
       {
-        props.ready ?
-          props.scene === 'Spawn' ?
-          <h1>spawn</h1> :
-          props.scene === 'Eden' ?
-          <h1>eden</h1> : <h2>scene unknown</h2>
-        : <h4>not ready...</h4>
+        <Console {...props} />
       }
 
       </div>
@@ -56,9 +52,9 @@ class Stage extends Component {
 const mapStateToProps = (state, ownProps) => {
   console.log("mapping...", state.scene)
   return {
-    ready: state.game.ready,
-    ws: state.network.ws,
     scene: state.scene,
+    ready: state.game.ready,
+    connection: state.network.ws,
   }
 }
 

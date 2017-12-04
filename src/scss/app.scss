@@ -4,14 +4,11 @@ html, body {
   margin: 0;
 }
 body {
-  display: table;
-  min-height: 100vh;
+  height: 100%;
   width: 100%;
 }
 main {
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle;
+  height: 100%;
 }
 #caller {
   margin: 0 auto;
@@ -31,3 +28,5 @@ main {
   margin: 1em;
   vertical-align: middle;
 }
+
+@import './Console'
