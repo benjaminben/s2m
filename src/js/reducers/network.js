@@ -5,7 +5,7 @@ export default (state={}, action) => {
       // ws.onmessage = e => console.log(e.data)
       return {...state, connection: ws}
     case 'ws:close':
-      return {...state, ws: null}
+      return {...state, connection: null}
     default:
       return state
   }

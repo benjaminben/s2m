@@ -10,6 +10,11 @@ body {
 main {
   height: 100%;
 }
+
+h1, h2, h3, h4, h5, p {
+  user-select: none;
+}
+
 #caller {
   margin: 0 auto;
   font-size: 1.33em;
