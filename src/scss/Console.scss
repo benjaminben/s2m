@@ -1,0 +1,32 @@
+#Console {
+  min-height: 100vh;
+  width: 100%;
+  position: absolute;
+  background: rgba(32,156,174,1);
+
+  .screen-cont {
+    margin: 1em;
+    width: calc(100% - 2em);
+    padding-bottom: calc((100% - 2em)*0.8);
+    background-color: rgba(100,100,100,1);
+  }
+
+  .power-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    bottom: 0.66em;
+    left: 0.66em;
+
+    &:after {
+      content: 'Network';
+      position: absolute;
+      left: calc(100% + 0.5em);
+      margin-top: -0.2em;
+      font-size: 0.8em;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: courier;
+    }
+  }
+}

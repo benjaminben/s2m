@@ -4,6 +4,7 @@ import (
   // "net/http/httputil"
   // "fmt"
   "log"
+  "time"
   "net/http"
   "encoding/json"
   "github.com/julienschmidt/httprouter"
@@ -15,6 +16,7 @@ var upgrader = websocket.Upgrader{}
 type Room struct {
   ID        string                   `json:"id"`
   Clients   map[*websocket.Conn]bool `json:"-"`
+  UClients  map[*websocket.Conn]bool `json:"-"`
   Broadcast chan Envelope            `json:"-"`
 }
 
@@ -39,6 +41,7 @@ func (r *Room) SocketHandler(res http.ResponseWriter, req *http.Request, _ httpr
 
   r.Clients[conn] = true
   log.Println(r.ID, "connected clients now", len(r.Clients))
+  conn.WriteJSON(Envelope{"connected", int64(time.Now().Unix()), nil})
 
   for {
     var msg json.RawMessage
@@ -58,6 +61,10 @@ func (r *Room) SocketHandler(res http.ResponseWriter, req *http.Request, _ httpr
       if err := json.Unmarshal(msg, &c); err != nil {
         log.Println("Error reading client:", err)
       }
+      // if (c.Type == "unity") {
+      //   log.Println("UNIIIIIIIITYYYYY")
+      //   r.UClients[conn] = true
+      // }
     case "drop":
       var d Drop
       if err := json.Unmarshal(msg, &d); err != nil {
@@ -69,6 +76,16 @@ func (r *Room) SocketHandler(res http.ResponseWriter, req *http.Request, _ httpr
       var f Frame
       if err := json.Unmarshal(msg, &f); err != nil {
         log.Println("Error reading frame:", err)
+      }
+    case "scene":
+      var s Scene
+      if err := json.Unmarshal(msg, &s); err != nil {
+        log.Println("Error reading scene:", err)
+      }
+    case "input":
+      var i Input
+      if err := json.Unmarshal(msg, &i); err != nil {
+        log.Println("Error reading input:", err)
       }
     case "sdp":
       log.Println("handling sdp")
@@ -98,6 +115,11 @@ func (r *Room) RunSocket() {
         log.Printf("broadcast error: %v", err)
         client.Close()
         delete(r.Clients, client)
+        // if (r.UClients[client]) {
+        //   delete(r.UClients, client)
+        //   log.Println("DISCONNECT! UClients length: ", len(r.UClients))
+        //   delete(r.UClients, client)
+        // }
       }
     }
   }

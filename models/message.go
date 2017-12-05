@@ -7,7 +7,8 @@ type Envelope struct {
 }
 
 type Client struct {
-  Client string `json:"client"`
+  Type   string `json:"type"`
+  Open   bool   `json:"open"`
 }
 
 type Drop struct {
@@ -16,4 +17,13 @@ type Drop struct {
 
 type Frame struct {
   Bytes []byte `json:"bytes"`
+}
+
+type Scene struct {
+  Name string `json:"name"`
+}
+
+type Input struct {
+  On      bool   `json:on`
+  KeyCode string `json:"KeyCode"`
 }

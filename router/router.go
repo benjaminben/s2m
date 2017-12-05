@@ -24,6 +24,8 @@ func Make() *httprouter.Router {
 
   Router.GET("/game/:id", gameHandler)
 
+  Router.ServeFiles("/static/*filepath", http.Dir("static/"))
+  Router.ServeFiles("/dist/*filepath", http.Dir("dist/"))
   return Router
 }
 
@@ -67,6 +69,7 @@ func findOrCreateRoom(id string) (*models.Room) {
     room = &models.Room{
       ID: id,
       Clients: make(map[*websocket.Conn]bool),
+      UClients: make(map[*websocket.Conn]bool),
       Broadcast: make(chan models.Envelope),
     }
     Rooms[room.ID] = room
@@ -85,4 +88,3 @@ func roomSocketHandler(res http.ResponseWriter, req *http.Request, ps httprouter
     log.Println("no room found at", ps.ByName("id"))
   }
 }
-
