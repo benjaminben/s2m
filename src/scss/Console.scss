@@ -7,18 +7,31 @@
   .screen-cont {
     margin: 1em;
     width: calc(100% - 2em);
-    padding-bottom: calc(100% - 2em);
+    padding-bottom: calc((100% - 2em)*0.8);
     background-color: rgba(100,100,100,1);
   }
 
   .screen {
     background-color: rgba(100,172,82,1);
-    top: 1em; left: 1em; right: 1em; bottom: 1em;
+    top: 2em; left: 2em; right: 2em; bottom: 2em;
   }
 
   .power-indicator {
     width: 10px;
     height: 10px;
     border-radius: 100%;
+    bottom: 0.66em;
+    left: 0.66em;
+
+    &:after {
+      content: 'Network';
+      position: absolute;
+      left: calc(100% + 0.5em);
+      margin-top: -0.2em;
+      font-size: 0.8em;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: courier;
+    }
   }
 }

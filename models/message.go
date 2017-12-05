@@ -21,3 +21,8 @@ type Frame struct {
 type Scene struct {
   Name string `json:"name"`
 }
+
+type Input struct {
+  On      bool   `json:on`
+  KeyCode string `json:"KeyCode"`
+}

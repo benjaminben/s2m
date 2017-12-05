@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
   entry: ['babel-polyfill', './src', './src/index.scss'],
   output: {
-    path: __dirname + '/static',
+    path: __dirname + '/dist',
     filename: 'app.js',
     publicPath: '/'
   },
@@ -26,12 +26,20 @@ module.exports = {
         test: /\.scss/,
         loader: ExtractTextPlugin.extract(['css-loader?url=false', 'postcss-loader', 'sass-loader'])
       }
-    ]
+    ],
   },
   plugins: [
     new ExtractTextPlugin({
       filename: 'style.css',
       allChunks: true,
     })
-  ]
+  ],
+  // devServer: {
+  //   proxy: {
+  //     '/': {
+  //       path: 'https://bb.ngrok.io',
+  //       secure: false,
+  //     }
+  //   }
+  // }
 }

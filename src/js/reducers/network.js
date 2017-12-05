@@ -3,7 +3,7 @@ export default (state={}, action) => {
     case 'ws:open':
       const ws = action.ws
       // ws.onmessage = e => console.log(e.data)
-      return {...state, ws: ws}
+      return {...state, connection: ws}
     case 'ws:close':
       return {...state, ws: null}
     default:

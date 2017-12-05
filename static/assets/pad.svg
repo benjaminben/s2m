@@ -1,0 +1,18 @@
+<svg id="d-pad" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 98.85 98.7">
+  <g id="up">
+    <rect x="35.98" width="26.9" height="26.82" fill="#d8d8d8"/>
+    <polyline points="40.73 16.83 49.81 7.77 58.95 16.78" fill="#474748"/>
+  </g>
+  <g id="right">
+    <rect x="71.95" y="35.9" width="26.9" height="26.82" fill="#d8d8d8"/>
+    <polyline points="82.53 40.74 91.6 49.82 82.58 58.96" fill="#474748"/>
+  </g>
+  <g id="down">
+    <rect x="36.02" y="71.88" width="26.9" height="26.82" fill="#d8d8d8"/>
+    <polyline points="58.95 81.57 49.86 90.64 40.73 81.62" fill="#474748"/>
+  </g>
+  <g id="left">
+    <rect y="35.91" width="26.9" height="26.82" fill="#d8d8d8"/>
+    <polyline points="16.37 58.41 7.3 49.33 16.32 40.19" fill="#474748"/>
+  </g>
+</svg>

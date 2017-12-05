@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import ConsoleView from '../components/ConsoleView'
 
 class Console extends Component {
@@ -10,4 +11,16 @@ class Console extends Component {
   }
 }
 
-export default Console
+const mapStateToProps = (state) => {
+  return {
+    connection: state.network.connection
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Console)
