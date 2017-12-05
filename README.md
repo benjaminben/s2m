@@ -19,6 +19,7 @@
 
 ### Server
 
+- UPDATE 12.5.17: From the project root, run `webpack` to compile the static assets for the web client. For live recompiling of these assets (if you're making changes), run `webpack --watch` instead
 - From the project root, run `go run main.go` to start the development server. The web client is now accessible at `localhost:7000` (game namespaces can be viewed / created by visiting `localhost:7000/room/${roomID}`)
 - In a new bash tab, run `ngrok http 7000` - this exposes a public URL for the server, e.g `https://0b308002.ngrok.io` (if you have a paid account with ngrok, you can specify a consistent subdomain such as `abc.ngrok.io`, which can be very helpful)
 - Visit `${subdomain}.ngrok.io` in your browser to confirm it works as a substitute for `localhost:7000`
