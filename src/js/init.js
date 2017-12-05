@@ -12,6 +12,8 @@ ws.onclose = (e) => {
   store.dispatch({type: 'ws:close'})
 }
 
+window.swapScene = (name) => store.dispatch({type: 'scene:change', scene: name})
+
 // var caller = document.getElementById("caller")
 // var logger = document.getElementById("logger")
 // var map    = document.getElementById("map")

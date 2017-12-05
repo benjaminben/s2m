@@ -13,7 +13,7 @@ class Console extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    connection: state.network.connection
+
   }
 }
 

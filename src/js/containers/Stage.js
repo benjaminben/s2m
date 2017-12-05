@@ -41,7 +41,7 @@ class Stage extends Component {
     return(
       <div id="Stage">
       {
-        <Console />
+        <Console {...props} />
       }
       </div>
     )
@@ -49,11 +49,11 @@ class Stage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log("mapping...", state.scene)
   return {
     scene: state.scene,
-    scene: "Spawn",
-    ready: state.game.ready,
+    // ready: state.game.ready,
+    // scene: "Spawn",
+    ready: true,
     connection: state.network.connection,
   }
 }

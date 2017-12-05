@@ -1,0 +1,9 @@
+#Screen {
+  background-color: rgba(100,172,82,1);
+  top: 2em; left: 2em; right: 2em; bottom: 2em;
+
+  canvas.scene {
+    width: 100%;
+    height: 100%;
+  }
+}
