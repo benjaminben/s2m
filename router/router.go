@@ -69,6 +69,7 @@ func findOrCreateRoom(id string) (*models.Room) {
     room = &models.Room{
       ID: id,
       Clients: make(map[*websocket.Conn]bool),
+      UClients: make(map[*websocket.Conn]bool),
       Broadcast: make(chan models.Envelope),
     }
     Rooms[room.ID] = room

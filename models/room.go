@@ -16,6 +16,7 @@ var upgrader = websocket.Upgrader{}
 type Room struct {
   ID        string                   `json:"id"`
   Clients   map[*websocket.Conn]bool `json:"-"`
+  UClients  map[*websocket.Conn]bool `json:"-"`
   Broadcast chan Envelope            `json:"-"`
 }
 
@@ -60,6 +61,10 @@ func (r *Room) SocketHandler(res http.ResponseWriter, req *http.Request, _ httpr
       if err := json.Unmarshal(msg, &c); err != nil {
         log.Println("Error reading client:", err)
       }
+      // if (c.Type == "unity") {
+      //   log.Println("UNIIIIIIIITYYYYY")
+      //   r.UClients[conn] = true
+      // }
     case "drop":
       var d Drop
       if err := json.Unmarshal(msg, &d); err != nil {
@@ -110,6 +115,11 @@ func (r *Room) RunSocket() {
         log.Printf("broadcast error: %v", err)
         client.Close()
         delete(r.Clients, client)
+        // if (r.UClients[client]) {
+        //   delete(r.UClients, client)
+        //   log.Println("DISCONNECT! UClients length: ", len(r.UClients))
+        //   delete(r.UClients, client)
+        // }
       }
     }
   }

@@ -7,7 +7,8 @@ type Envelope struct {
 }
 
 type Client struct {
-  Client string `json:"client"`
+  Type   string `json:"type"`
+  Open   bool   `json:"open"`
 }
 
 type Drop struct {
