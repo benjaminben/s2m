@@ -24,6 +24,8 @@ func Make() *httprouter.Router {
 
   Router.GET("/game/:id", gameHandler)
 
+  Router.GET("/api/images", Images)
+
   Router.ServeFiles("/static/*filepath", http.Dir("static/"))
   Router.ServeFiles("/dist/*filepath", http.Dir("dist/"))
   return Router
