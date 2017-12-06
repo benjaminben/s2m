@@ -7,7 +7,7 @@
 
 ### Node
 
-- You need node / npm to compile the js and css files for the web client. The easiest way to install is with [homebrew][https://brew.sh/] (if mac/unix)
+- You need node / npm to compile the js and css files for the web client. The easiest way to install is with [homebrew](https://brew.sh/) (if mac/unix)
 - With homebrew installed, run `brew install node`
 
 ### Ngrok
