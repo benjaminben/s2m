@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Spawn from './Spawn'
 import Eden from './Eden'
-import Scene from './Scene'
 
 class Screen extends Component {
   constructor(props) {
     super(props)
     this.resizeScreen = this.resizeScreen.bind(this)
+    this.handleTouchStart = this.handleTouchStart.bind(this)
+    this.handleTouchMove = this.handleTouchMove.bind(this)
+    this.handleTouchEnd = this.handleTouchEnd.bind(this)
   }
 
   componentDidMount() {
@@ -28,6 +30,18 @@ class Screen extends Component {
     })
   }
 
+  handleTouchStart(e) {
+    console.log("start")
+  }
+
+  handleTouchMove(e) {
+    console.log("move")
+  }
+
+  handleTouchEnd(e) {
+    console.log("end")
+  }
+
   render() {
     const { props, state } = this
     return (
@@ -35,14 +49,19 @@ class Screen extends Component {
         <canvas width={props.screenWidth}
                 height={props.screenHeight}
                 ref={(el) => this.canvas = el}
-                className="relative scene" />
+                className="relative scene"
+                onClick={() => console.log("fart")}
+                onTouchStart={this.handleTouchStart}
+                onTouchMove={this.handleTouchMove}
+                onTouchEnd={this.handleTouchEnd} />
         {
           props.ready ?
             props.scene === 'Spawn' ?
-            <Spawn ctx={this.ctx} /> :
+            <Spawn ctx={this.ctx} canvas={this.canvas} /> :
             props.scene === 'Eden' ?
-            <Eden ctx={this.ctx} /> : <h2>scene unknown</h2>
-          : <h1>no unity</h1>
+            <Eden ctx={this.ctx} canvas={this.canvas} /> :
+            <h2 style={{position: 'absolute', top: 0}}>scene unknown</h2>
+          : <h1 style={{position: 'absolute', top: 0}}>no unity</h1>
         }
       </div>
     )
@@ -51,7 +70,9 @@ class Screen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-
+    connection: state.network.connection,
+    screenWidth: state.game.screenWidth,
+    screenHeight: state.game.screenHeight,
   }
 }
 

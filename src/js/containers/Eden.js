@@ -16,7 +16,7 @@ class Eden extends Component {
   }
 
   run() {
-    this.props.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
+    this.props.ctx.clearRect(0,0,this.props.canvas.width,this.props.canvas.height)
     this.props.ctx.fillStyle = 'green',
     this.props.ctx.fillRect(50,20,100,100)
 

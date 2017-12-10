@@ -16,7 +16,7 @@ class Spawn extends Component {
   }
 
   run() {
-    this.props.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
+    this.props.ctx.clearRect(0,0,this.props.canvas.width,this.props.canvas.height)
     this.props.ctx.fillStyle = 'pink',
     this.props.ctx.fillRect(10,10,100,100)
 
