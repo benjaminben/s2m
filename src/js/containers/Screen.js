@@ -41,6 +41,11 @@ class Screen extends Component {
     let pctY = (touch.clientY - this.dims.y) / this.dims.height
 
     console.log("start", pctX, pctY)
+    this.props.connection.send(JSON.stringify({
+      type: 'input',
+      timestamp: Date.now(),
+      data: {on: true, keyCode: 'SCREEN', coords: [pctX, pctY]}
+    }))
   }
 
   handleTouchMove(e) {
@@ -51,11 +56,21 @@ class Screen extends Component {
     if (pctX < 0 || pctX > 1 || pctY < 0 || pctY > 1) {return}
 
     console.log("move", pctX, pctY)
+    this.props.connection.send(JSON.stringify({
+      type: 'input',
+      timestamp: Date.now(),
+      data: {on: true, keyCode: 'PAN', coords: [pctX, pctY]}
+    }))
   }
 
   handleTouchEnd(e) {
     this.setState({touching: false})
     console.log("end", e.nativeEvent)
+    this.props.connection.send(JSON.stringify({
+      type: 'input',
+      timestamp: Date.now(),
+      data: {on: false, keyCode: 'SCREEN'}
+    }))
   }
 
   render() {
