@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Spawn from './Spawn'
 import Eden from './Eden'
+import Scene from './Scene'
 
 class Screen extends Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class Screen extends Component {
   }
 
   componentDidMount() {
+    this.ctx = this.canvas.getContext('2d')
     window.addEventListener('resize', this.resizeScreen)
     this.resizeScreen()
   }
@@ -30,14 +32,18 @@ class Screen extends Component {
     const { props, state } = this
     return (
       <div id="Screen" ref={el => this.el = el} className="absolute">
-      {
-        props.ready ?
-          props.scene === 'Spawn' ?
-          <Spawn /> :
-          props.scene === 'Eden' ?
-          <Eden /> : <h2>scene unknown</h2>
-        : <h1>no unity</h1>
-      }
+        <canvas width={props.screenWidth}
+                height={props.screenHeight}
+                ref={(el) => this.canvas = el}
+                className="relative scene" />
+        {
+          props.ready ?
+            props.scene === 'Spawn' ?
+            <Spawn ctx={this.ctx} /> :
+            props.scene === 'Eden' ?
+            <Eden ctx={this.ctx} /> : <h2>scene unknown</h2>
+          : <h1>no unity</h1>
+        }
       </div>
     )
   }

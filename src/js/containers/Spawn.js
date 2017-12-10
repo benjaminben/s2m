@@ -8,7 +8,6 @@ class Spawn extends Component {
   }
 
   componentDidMount() {
-    this.ctx = this.canvas.getContext('2d')
     this.anim = window.requestAnimationFrame(this.run)
   }
 
@@ -17,22 +16,16 @@ class Spawn extends Component {
   }
 
   run() {
-    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
-    this.ctx.fillStyle = 'pink',
-    this.ctx.fillRect(10,10,100,100)
+    this.props.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
+    this.props.ctx.fillStyle = 'pink',
+    this.props.ctx.fillRect(10,10,100,100)
 
     this.anim = window.requestAnimationFrame(this.run)
   }
 
   render() {
     const { props, state } = this
-    return (
-      <canvas id="Spawn"
-              width={props.screenWidth}
-              height={props.screenHeight}
-              ref={(el) => this.canvas = el}
-              className="relative scene" />
-    )
+    return null
   }
 }
 

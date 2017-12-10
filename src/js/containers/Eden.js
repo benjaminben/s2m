@@ -8,7 +8,6 @@ class Eden extends Component {
   }
 
   componentDidMount() {
-    this.ctx = this.canvas.getContext('2d')
     this.anim = window.requestAnimationFrame(this.run)
   }
 
@@ -17,22 +16,16 @@ class Eden extends Component {
   }
 
   run() {
-    this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
-    this.ctx.fillStyle = 'green',
-    this.ctx.fillRect(50,20,100,100)
+    this.props.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
+    this.props.ctx.fillStyle = 'green',
+    this.props.ctx.fillRect(50,20,100,100)
 
     this.anim = window.requestAnimationFrame(this.run)
   }
 
   render() {
     const { props, state } = this
-    return (
-      <canvas id="Eden"
-              width={props.screenWidth}
-              height={props.screenHeight}
-              ref={(el) => this.canvas = el}
-              className="relative scene" />
-    )
+    return null
   }
 }
 
