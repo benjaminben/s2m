@@ -6,6 +6,7 @@ import Eden from './Eden'
 class Screen extends Component {
   constructor(props) {
     super(props)
+    this.state = {touching: false}
     this.resizeScreen = this.resizeScreen.bind(this)
     this.handleTouchStart = this.handleTouchStart.bind(this)
     this.handleTouchMove = this.handleTouchMove.bind(this)
@@ -14,6 +15,7 @@ class Screen extends Component {
 
   componentDidMount() {
     this.ctx = this.canvas.getContext('2d')
+    this.dims = this.canvas.getBoundingClientRect()
     window.addEventListener('resize', this.resizeScreen)
     this.resizeScreen()
   }
@@ -23,6 +25,7 @@ class Screen extends Component {
   }
 
   resizeScreen() {
+    this.dims = this.canvas.getBoundingClientRect()
     return this.props.dispatch({
       type: 'game:resize',
       screenWidth: this.el.clientWidth,
@@ -31,15 +34,28 @@ class Screen extends Component {
   }
 
   handleTouchStart(e) {
-    console.log("start")
+    this.setState({touching: true})
+
+    let touch = e.nativeEvent.targetTouches[0]
+    let pctX = (touch.clientX - this.dims.x) / this.dims.width
+    let pctY = (touch.clientY - this.dims.y) / this.dims.height
+
+    console.log("start", pctX, pctY)
   }
 
   handleTouchMove(e) {
-    console.log("move")
+    let touch = e.nativeEvent.targetTouches[0]
+    let pctX = (touch.clientX - this.dims.x) / this.dims.width
+    let pctY = (touch.clientY - this.dims.y) / this.dims.height
+
+    if (pctX < 0 || pctX > 1 || pctY < 0 || pctY > 1) {return}
+
+    console.log("move", pctX, pctY)
   }
 
   handleTouchEnd(e) {
-    console.log("end")
+    this.setState({touching: false})
+    console.log("end", e.nativeEvent)
   }
 
   render() {
@@ -50,10 +66,9 @@ class Screen extends Component {
                 height={props.screenHeight}
                 ref={(el) => this.canvas = el}
                 className="relative scene"
-                onClick={() => console.log("fart")}
-                onTouchStart={this.handleTouchStart}
-                onTouchMove={this.handleTouchMove}
-                onTouchEnd={this.handleTouchEnd} />
+                onTouchStart={state.touching ? null : this.handleTouchStart}
+                onTouchMove={state.touching ? this.handleTouchMove : null}
+                onTouchEnd={state.touching ? this.handleTouchEnd : null} />
         {
           props.ready ?
             props.scene === 'Spawn' ?
