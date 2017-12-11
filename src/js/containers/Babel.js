@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-class Spawn extends Component {
+class Babel extends Component {
   constructor(props) {
     super(props)
     this.run = this.run.bind(this)
@@ -17,9 +17,15 @@ class Spawn extends Component {
   }
 
   run() {
-    this.props.ctx.clearRect(0,0,this.props.canvas.width,this.props.canvas.height)
-    this.props.ctx.fillStyle = 'pink',
-    this.props.ctx.fillRect(10,10,100,100)
+    if (this.props.touch) {
+      var {ctx, touch, dims} = this.props
+      ctx.fillStyle = 'rgba(40,40,40,1)'
+      ctx.fillRect(
+        touch.clientX - dims.x,
+        touch.clientY - dims.y,
+        4, 4
+      )
+    }
 
     this.anim = window.requestAnimationFrame(this.run)
   }
@@ -43,4 +49,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Spawn)
+export default connect(mapStateToProps, mapDispatchToProps)(Babel)

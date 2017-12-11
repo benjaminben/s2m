@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom'
-import Stage from './js/containers/Stage'
+import Console from './js/containers/Console'
 import store from './js/reducers'
 
 import './js/init'
@@ -12,7 +12,7 @@ class Root extends Component {
   render() {
     return(
       <Provider store={store}>
-        <Stage roomID={root.getAttribute('data-room')} />
+        <Console roomID={root.getAttribute('data-room')} />
       </Provider>
     )
   }

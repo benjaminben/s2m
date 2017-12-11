@@ -12,6 +12,7 @@ class Eden extends Component {
   }
 
   componentWillUnmount() {
+    this.props.ctx.clearRect(0,0,this.props.canvas.width,this.props.canvas.height)
     window.cancelAnimationFrame(this.anim)
   }
 

@@ -30,3 +30,12 @@
     }
   }
 }
+
+#fullscreen {
+  position: absolute;
+  left: 50%;
+  bottom: 1em;
+  font-family: courier;
+  font-size: 0.8em;
+  transform: translateX(-50%);
+}
