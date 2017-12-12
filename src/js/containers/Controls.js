@@ -15,7 +15,7 @@ class Controls extends Component {
     const key = e.currentTarget.getAttribute('data-keycode')
     state[`on${key}`] = true
     this.setState(state)
-    console.log(this.props.controls[key])
+    this.props.toggleButtonState(key, true)
     this.props.connection.send(JSON.stringify({
       type: 'input',
       timestamp: Date.now(),
@@ -28,6 +28,7 @@ class Controls extends Component {
     const key = e.currentTarget.getAttribute('data-keycode')
     state[`on${key}`] = false
     this.setState(state)
+    this.props.toggleButtonState(key, false)
     this.props.connection.send(JSON.stringify({
       type: 'input',
       timestamp: Date.now(),
@@ -52,9 +53,16 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-
+    toggleButtonState: (key, on) => {
+      var button = {}
+      button[`on${key}`] = on
+      dispatch({
+        type: "controls:toggle",
+        button: button
+      })
+    }
   }
 }
 

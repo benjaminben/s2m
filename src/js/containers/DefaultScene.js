@@ -1,25 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-class Babel extends Component {
+class DefaultScene extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      query: 'cats',
-      searchOpen: true,
-    }
+    this.state = {}
     this.run = this.run.bind(this)
-    this.handleQueryInput = this.handleQueryInput.bind(this)
-  }
-
-  componentWillMount() {
-    this.props.setControls({
-      A: {
-        BABEL: {
-          q: this.state.query
-        }
-      }
-    })
   }
 
   componentDidMount() {
@@ -29,18 +15,6 @@ class Babel extends Component {
   componentWillUnmount() {
     this.props.ctx.clearRect(0, 0, this.props.screenWidth, this.props.screenHeight)
     window.cancelAnimationFrame(this.anim)
-  }
-
-  handleQueryInput(e) {
-    if (e.target.value.match(/[^\w]/g)) {return}
-    this.props.setControls({
-      A: {
-        BABEL: {
-          q: e.target.value
-        }
-      }
-    })
-    this.setState({query: e.target.value})
   }
 
   run() {
@@ -64,14 +38,7 @@ class Babel extends Component {
 
   render() {
     const { props, state } = this
-    return (
-      state.searchOpen ?
-      <div className="babel-form absolute">
-        <input onChange={this.handleQueryInput}
-               value={state.query} />
-        <span>A TO SUBMIT</span>
-      </div> : null
-    )
+    return null
   }
 }
 
@@ -85,10 +52,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setControls: (controller) => {
-      dispatch({type: 'controls:set', ctrl:controller})
-    }
+
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Babel)
+export default connect(mapStateToProps, mapDispatchToProps)(DefaultScene)

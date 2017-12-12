@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Spawn from './Spawn'
 import Eden from './Eden'
 import Babel from './Babel'
+import Default from './DefaultScene'
 
 class Screen extends Component {
   constructor(props) {
@@ -98,7 +99,11 @@ class Screen extends Component {
                    ctx={this.ctx}
                    dims={state.dims}
                    canvas={this.canvas} /> :
-            <h2 style={{position: 'absolute', top: 0}}>scene unknown</h2>
+            <Default {...state}
+                     {...props}
+                     ctx={this.ctx}
+                     dims={state.dims}
+                     canvas={this.canvas} />
           : <h1 style={{position: 'absolute', top: 0}}>no unity</h1>
         }
       </div>
