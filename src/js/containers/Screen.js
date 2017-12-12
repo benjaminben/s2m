@@ -94,6 +94,7 @@ class Screen extends Component {
             <Eden ctx={this.ctx} canvas={this.canvas} /> :
             props.scene === 'Babel' ?
             <Babel {...state}
+                   {...props}
                    ctx={this.ctx}
                    dims={state.dims}
                    canvas={this.canvas} /> :

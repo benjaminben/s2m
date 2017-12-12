@@ -27,4 +27,5 @@ type Input struct {
   On      bool      `json:on`
   KeyCode string    `json:"KeyCode"`
   Coords  []float64 `json:coords`
+  Data    string    `json:data`
 }

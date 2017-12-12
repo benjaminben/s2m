@@ -15,10 +15,11 @@ class Controls extends Component {
     const key = e.currentTarget.getAttribute('data-keycode')
     state[`on${key}`] = true
     this.setState(state)
+    console.log(this.props.controls[key])
     this.props.connection.send(JSON.stringify({
       type: 'input',
       timestamp: Date.now(),
-      data: {on: true, keyCode: key}
+      data: {on: true, keyCode: key, data: this.props.controls[key] || null}
     }))
   }
 
@@ -30,7 +31,7 @@ class Controls extends Component {
     this.props.connection.send(JSON.stringify({
       type: 'input',
       timestamp: Date.now(),
-      data: {on: false, keyCode: key}
+      data: {on: false, keyCode: key, data: this.props.controls[key] || null}
     }))
   }
 
@@ -46,7 +47,8 @@ class Controls extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    connection: state.network.connection
+    connection: state.network.connection,
+    controls: state.controls,
   }
 }
 
