@@ -7,6 +7,7 @@ var roomID = document.querySelector("main").getAttribute("data-room")
 var ws     = new WebSocket(wsProtocol + "://" + window.location.host + "/room/" + roomID + "/ws")
 ws.onopen = (e) => { // RACE CONDITION?
   store.dispatch({type: 'ws:open', ws: e.target})
+  ws.send(JSON.stringify({type: "client", timestamp: Date.now(), data: {type: "web"}}))
 }
 ws.onclose = (e) => {
   store.dispatch({type: 'ws:close'})

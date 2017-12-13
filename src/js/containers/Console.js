@@ -12,7 +12,7 @@ const requestFullScreen = document.body.webkitRequestFullScreen ||
     }
   } : null
 
-class Stage extends Component {
+class Console extends Component {
   constructor(props) {
     super(props)
 
@@ -28,12 +28,12 @@ class Stage extends Component {
 
   awaitUnityConnection(e) {
     let d = JSON.parse(e.data)
-    if (d.type === 'client' && d.data.type === 'unity' && d.data.open) {
+    // if (d.type === 'client' && d.data.type === 'unity' && d.data.open) {
       this.props.connection.removeEventListener("message", this.awaitUnityConnection)
       this.props.setReady(true)
 
       this.props.connection.addEventListener("message", this.awaitSceneChange)
-    }
+    // }
   }
 
   awaitUnityDisconnection(e) {
@@ -85,4 +85,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Stage)
+export default connect(mapStateToProps, mapDispatchToProps)(Console)
