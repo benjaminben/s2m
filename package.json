@@ -25,6 +25,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "babel-preset-react": "^6.24.1",
+    "hsl-to-hex": "^1.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",

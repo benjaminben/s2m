@@ -3,13 +3,15 @@ import { connect } from 'react-redux'
 import Spawn from './Spawn'
 import Eden from './Eden'
 import Babel from './Babel'
+import Library from './Library'
 import Default from './DefaultScene'
 
 class Screen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      touch: null
+      touch: null,
+      bonusData: null,
     }
     this.resizeScreen = this.resizeScreen.bind(this)
     this.handleTouchStart = this.handleTouchStart.bind(this)
@@ -44,11 +46,20 @@ class Screen extends Component {
 
     this.setState({touch: touch})
 
-    this.props.connection.send(JSON.stringify({
+    var data = {
       type: 'input',
       timestamp: Date.now(),
-      data: {on: true, keyCode: 'SCREEN', coords: [pctX, pctY]}
-    }))
+      data: {
+        on: true,
+        keyCode: 'SCREEN',
+        data: {
+          coords: {x: pctX, y: pctY},
+          ...this.state.bonusData
+        }
+      }
+    }
+
+    this.props.connection.send(JSON.stringify(data))
   }
 
   handleTouchMove(e) {
@@ -56,15 +67,24 @@ class Screen extends Component {
     var pctX = (touch.clientX - this.state.dims.x) / this.state.dims.width
     var pctY = (touch.clientY - this.state.dims.y) / this.state.dims.height
 
+    var data = {
+      type: 'input',
+      timestamp: Date.now(),
+      data: {
+        on: true,
+        keyCode: 'PAN',
+        data: {
+          coords: {x: pctX, y: pctY},
+          ...this.state.bonusData
+        }
+      }
+    }
+
     if (pctX < 0 || pctX > 1 || pctY < 0 || pctY > 1) {
       return this.setState({touch: null})
     } this.setState({touch: touch})
 
-    this.props.connection.send(JSON.stringify({
-      type: 'input',
-      timestamp: Date.now(),
-      data: {on: true, keyCode: 'PAN', coords: [pctX, pctY]}
-    }))
+    this.props.connection.send(JSON.stringify(data))
   }
 
   handleTouchEnd(e) {
@@ -99,6 +119,13 @@ class Screen extends Component {
                    ctx={this.ctx}
                    dims={state.dims}
                    canvas={this.canvas} /> :
+            props.scene === 'Library' ?
+            <Library {...state}
+                     {...props}
+                     ctx={this.ctx}
+                     dims={state.dims}
+                     canvas={this.canvas}
+                     setBonusData={(d) => this.setState({bonusData: d})} /> :
             <Default {...state}
                      {...props}
                      ctx={this.ctx}

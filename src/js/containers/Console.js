@@ -68,7 +68,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     scene: state.scene,
     ready: state.game.ready,
-    // scene: "Babel",
+    // scene: "Library",
     ready: true, // for dev purposes...
     connection: state.network.connection,
   }
