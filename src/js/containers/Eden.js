@@ -12,6 +12,22 @@ class Eden extends Component {
 
   componentDidMount() {
     this.anim = window.requestAnimationFrame(this.run)
+
+    var img = document.createElement('img')
+    img.onload = () => {
+      let r = img.height / img.width
+      let newWidth = this.props.screenWidth / 3
+      let newHeight = newWidth * r
+      this.props.ctx.drawImage(
+        img,
+        this.props.screenWidth / 2 - newWidth / 2,
+        this.props.screenHeight / 2 - newHeight / 2,
+        newWidth,
+        newHeight
+      )
+      this.hand = true
+    }
+    img.src = '/dist/masterhand.png'
   }
 
   componentWillUnmount() {
@@ -41,7 +57,11 @@ class Eden extends Component {
     }
 
     if (this.props.touch) {
-      ctx.fillStyle = '#c2b280'
+      if (this.hand) {
+        ctx.clearRect(0,0,screenWidth,screenHeight)
+        this.hand = false
+      }
+      ctx.fillStyle = 'rgb(40,40,40)'
       ctx.fillRect(
         touch.clientX - dims.x,
         touch.clientY - dims.y,
