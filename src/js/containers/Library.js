@@ -47,7 +47,7 @@ class Library extends Component {
 
   calculateColor(pctX, pctY) {
     const h = Math.round(pctX * 295),
-          s = 45,
+          s = 100,
           l = Math.round((pctY + 0.25) * 75)
 
     return h2h(h,s,l)
