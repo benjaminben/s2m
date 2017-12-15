@@ -88,5 +88,7 @@ func roomSocketHandler(res http.ResponseWriter, req *http.Request, ps httprouter
     room.SocketHandler(res, req, ps)
   } else {
     log.Println("no room found at", ps.ByName("id"))
+    room := findOrCreateRoom(ps.ByName("id"))
+    room.SocketHandler(res, req, ps)
   }
 }

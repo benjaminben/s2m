@@ -17,4 +17,64 @@
       margin-left: 0.5em;
     }
   }
+
+  .overlay {
+    font-size: 0.8em;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.9);
+    flex-flow: row wrap;
+
+    * {
+      line-height: 1.5em;
+      margin: auto;
+    }
+  }
+
+  &.babel {
+    .babel-form {
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      flex-flow: row wrap;
+    }
+
+    input {
+      display: block;
+      margin: auto auto 0;
+      padding: 1em 0 0.5em;
+      text-align: center;
+      background: none;
+      border: none;
+      border-bottom: 2px solid black;
+    }
+  }
+
+  &.eden {
+    .inner {
+      top: 0; left: 0;
+    }
+    .drop-text {
+      margin: 1em;
+      animation: drop-fade 0.66s ease forwards;
+    }
+  }
+
+  &.library {
+    .cta {
+      position: absolute;
+      width: 100%;
+      font-size: 0.8em;
+      bottom: 1em;
+      text-align: center;
+    }
+  }
+}
+
+@keyframes drop-fade {
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 }

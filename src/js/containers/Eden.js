@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 class Eden extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      dropText: "Dropped Apple",
+    }
     this.run = this.run.bind(this)
   }
 
@@ -16,17 +19,45 @@ class Eden extends Component {
     window.cancelAnimationFrame(this.anim)
   }
 
+  componentWillUpdate(nextProps) {
+    if (!this.props.controls.onA && nextProps.controls.onA) {
+      var el = document.createElement('div')
+      this.scene.appendChild(el)
+      el.textContent = this.state.dropText
+      el.className="drop-text"
+      // window.clearTimeout(this.dropTextTimeout)
+      // this.setState({dropText: "Dropped Apple"})
+      window.setTimeout(() => {
+        this.scene.removeChild(el)
+      }, 666)
+    }
+  }
+
   run() {
-    this.props.ctx.clearRect(0,0,this.props.canvas.width,this.props.canvas.height)
-    this.props.ctx.fillStyle = 'green',
-    this.props.ctx.fillRect(50,20,100,100)
+    var {ctx, touch, dims, screenWidth, screenHeight} = this.props
+
+    if (this.props.controls.onB) {
+      ctx.clearRect(0, 0, screenWidth, screenHeight)
+    }
+
+    if (this.props.touch) {
+      ctx.fillStyle = '#c2b280'
+      ctx.fillRect(
+        touch.clientX - dims.x,
+        touch.clientY - dims.y,
+        4, 4
+      )
+    }
 
     this.anim = window.requestAnimationFrame(this.run)
   }
 
   render() {
     const { props, state } = this
-    return null
+    return (
+      <div className="absolute inner" ref={(el) => this.scene = el}>
+      </div>
+    )
   }
 }
 
@@ -34,6 +65,7 @@ const mapStateToProps = (state) => {
   return {
     screenWidth: state.game.screenWidth,
     screenHeight: state.game.screenHeight,
+    controls: state.controls,
   }
 }
 

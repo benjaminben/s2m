@@ -5,7 +5,7 @@ import h2h from 'hsl-to-hex'
 class Library extends Component {
   constructor(props) {
       super(props)
-      this.state = {}
+      this.state = {cta: "Drag For Colors"}
       this.run = this.run.bind(this)
   }
 
@@ -27,14 +27,19 @@ class Library extends Component {
     }
 
     if (this.props.touch) {
-      const color = this.calculateColor(
-        (touch.clientX - dims.x) / screenWidth,
-        (touch.clientY - dims.y) / screenHeight
-      )
-      ctx.fillStyle = color
-      this.props.setBonusData({color: color})
+      if (this.props.touch.type === "touchmove") {
+        const color = this.calculateColor(
+          (touch.clientX - dims.x) / screenWidth,
+          (touch.clientY - dims.y) / screenHeight
+        )
+        ctx.fillStyle = color
+        this.props.setBonusData({color: color})
 
-      ctx.fillRect(0, 0, screenWidth, screenHeight)
+        ctx.fillRect(0, 0, screenWidth, screenHeight)
+      }
+      if (this.props.touch.type === "touchstart") {
+        if (this.state.cta) this.setState({cta: null})
+      }
     }
 
     this.anim = window.requestAnimationFrame(this.run)
@@ -50,7 +55,7 @@ class Library extends Component {
 
   render() {
     const { props, state } = this
-    return null
+    return state.cta ? <h3 className="cta">{state.cta}</h3> : null
   }
 }
 

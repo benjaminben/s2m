@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { makeWS } from '../init'
 import Spawn from './Spawn'
 import Eden from './Eden'
 import Babel from './Babel'
@@ -12,6 +13,7 @@ class Screen extends Component {
     this.state = {
       touch: null,
       bonusData: null,
+      overlay: false,
     }
     this.resizeScreen = this.resizeScreen.bind(this)
     this.handleTouchStart = this.handleTouchStart.bind(this)
@@ -30,6 +32,15 @@ class Screen extends Component {
     window.removeEventListener('resize', this.resizeScreen)
   }
 
+  componentWillUpdate(nextProps) {
+    if (this.props.connection && !nextProps.connection) {
+      this.setState({overlay: true})
+    }
+    if (nextProps.connection && !this.props.connection) {
+      this.setState({overlay: false})
+    }
+  }
+
   resizeScreen() {
     this.setState({dims: this.canvas.getBoundingClientRect()})
     return this.props.dispatch({
@@ -41,6 +52,7 @@ class Screen extends Component {
 
   handleTouchStart(e) {
     var touch = e.nativeEvent.targetTouches[0]
+    touch.type = e.type
     var pctX = (touch.clientX - this.state.dims.x) / this.state.dims.width
     var pctY = (touch.clientY - this.state.dims.y) / this.state.dims.height
 
@@ -64,6 +76,7 @@ class Screen extends Component {
 
   handleTouchMove(e) {
     var touch = e.nativeEvent.targetTouches[0]
+    touch.type = e.type
     var pctX = (touch.clientX - this.state.dims.x) / this.state.dims.width
     var pctY = (touch.clientY - this.state.dims.y) / this.state.dims.height
 
@@ -99,20 +112,24 @@ class Screen extends Component {
   render() {
     const { props, state } = this
     return (
-      <div id="Screen" ref={el => this.el = el} className="absolute">
+      <div id="Screen" ref={el => this.el = el}
+           onTouchStart={state.touch ? null : this.handleTouchStart}
+           onTouchMove={state.touch ? this.handleTouchMove : null}
+           onTouchEnd={state.touch ? this.handleTouchEnd : null}
+           className={`absolute p2p text-center ${(props.scene || '').toLowerCase()}`}>
         <canvas width={props.screenWidth}
                 height={props.screenHeight}
                 ref={(el) => this.canvas = el}
-                className="relative scene"
-                onTouchStart={state.touch ? null : this.handleTouchStart}
-                onTouchMove={state.touch ? this.handleTouchMove : null}
-                onTouchEnd={state.touch ? this.handleTouchEnd : null} />
+                className="relative scene" />
         {
           props.ready && state.dims ?
             props.scene === 'Spawn' ?
             <Spawn ctx={this.ctx} canvas={this.canvas} /> :
             props.scene === 'Eden' ?
-            <Eden ctx={this.ctx} canvas={this.canvas} /> :
+            <Eden {...state}
+                  {...props}
+                  ctx={this.ctx}
+                  canvas={this.canvas} /> :
             props.scene === 'Babel' ?
             <Babel {...state}
                    {...props}
@@ -132,6 +149,14 @@ class Screen extends Component {
                      dims={state.dims}
                      canvas={this.canvas} />
           : <h1 style={{position: 'absolute', top: 0}}>no unity</h1>
+        }
+        {
+          state.overlay ?
+          <div className="overlay absolute flex justify-center align-center">
+            <h2 className="uppercase">Connection Lost :[</h2>
+            <span className="underline uppercase"
+                  onClick={makeWS}>Reconnect?</span>
+          </div> : null
         }
       </div>
     )

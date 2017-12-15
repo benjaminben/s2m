@@ -1,4 +1,5 @@
 @import './global';
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
 
 html, body {
   margin: 0;
@@ -32,6 +33,10 @@ h1, h2, h3, h4, h5, p {
   display: inline-block;
   margin: 1em;
   vertical-align: middle;
+}
+
+.p2p {
+  font-family: 'Press Start 2P', courier;
 }
 
 @import './Console';

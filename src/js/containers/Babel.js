@@ -44,21 +44,6 @@ class Babel extends Component {
   }
 
   run() {
-    var {ctx, touch, dims, screenWidth, screenHeight} = this.props
-
-    if (this.props.controls.onB) {
-      ctx.clearRect(0, 0, screenWidth, screenHeight)
-    }
-
-    if (this.props.touch) {
-      ctx.fillStyle = 'rgba(40,40,40,1)'
-      ctx.fillRect(
-        touch.clientX - dims.x,
-        touch.clientY - dims.y,
-        4, 4
-      )
-    }
-
     this.anim = window.requestAnimationFrame(this.run)
   }
 
@@ -66,10 +51,11 @@ class Babel extends Component {
     const { props, state } = this
     return (
       state.searchOpen ?
-      <div className="babel-form absolute">
-        <input onChange={this.handleQueryInput}
+      <div className="babel-form absolute flex justify-center align-center">
+        <input className="p2p"
+               onChange={this.handleQueryInput}
                value={state.query} />
-        <span>A TO SUBMIT</span>
+        <span className="p2p">A TO SUBMIT</span>
       </div> : null
     )
   }

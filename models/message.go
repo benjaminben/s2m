@@ -1,5 +1,9 @@
 package models
 
+import (
+  "encoding/json"
+)
+
 type Envelope struct {
   Type      string      `json:"type"`
   Timestamp int64       `json:"timestamp"`
@@ -24,7 +28,7 @@ type Scene struct {
 }
 
 type Input struct {
-  On      bool      `json:on`
-  KeyCode string    `json:"KeyCode"`
-  Data    string    `json:data`
+  On      bool            `json:on`
+  KeyCode string          `json:keyCode`
+  Data    json.RawMessage `json:data`
 }

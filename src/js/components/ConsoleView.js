@@ -15,7 +15,7 @@ class ConsoleView extends Component {
         <Controls {...props} />
         {
           props.fullScreen ?
-          <h3 id="fullscreen" onClick={() => props.fullScreen(this.el)}>
+          <h3 id="fullscreen" className="p2p" onClick={() => props.fullScreen(this.el)}>
             FULL SCREEN
           </h3> : null
         }
