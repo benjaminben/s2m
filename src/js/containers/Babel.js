@@ -5,7 +5,7 @@ class Babel extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      query: 'cats',
+      query: 'snakes',
       searchOpen: true,
     }
     this.run = this.run.bind(this)

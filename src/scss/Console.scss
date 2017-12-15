@@ -21,21 +21,16 @@
     &:after {
       content: 'Network';
       position: absolute;
-      left: calc(100% + 0.5em);
-      margin-top: -0.2em;
-      font-size: 0.8em;
+      left: calc(100% + 1em);
+      font-size: 0.66em;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      font-family: courier;
     }
   }
 }
 
 #fullscreen {
-  position: absolute;
-  left: 50%;
-  bottom: 1em;
-  font-family: courier;
+  text-align: center;
   font-size: 0.8em;
-  transform: translateX(-50%);
+  margin: 8em auto 2.66em;
 }

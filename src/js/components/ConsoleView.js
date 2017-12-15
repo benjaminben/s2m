@@ -8,15 +8,15 @@ class ConsoleView extends Component {
     return(
       <div id="Console" ref={(el) => this.el = el}>
         <div className="screen-cont relative">
-          <span className="power-indicator absolute"
+          <span className="power-indicator absolute p2p"
                 style={{backgroundColor: props.connection ? 'red' : 'black'}} />
           <Screen {...props} />
         </div>
         <Controls {...props} />
         {
-          props.fullScreen ?
+          props.fullScreen && !props.isFullscreen ?
           <h3 id="fullscreen" className="p2p" onClick={() => props.fullScreen(this.el)}>
-            FULL SCREEN
+          FULL SCREEN
           </h3> : null
         }
       </div>

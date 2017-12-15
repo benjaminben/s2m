@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ConsoleView from '../components/ConsoleView'
 
+// var fullscreenchange = (document.onwebkitfullscreenchange ||	document.onmozfullscreenchange ||	document.MSFullscreenChange ||	document.onwebkitfullscreenchange ||	document.onwebkitfullscreenchange)
 const requestFullScreen = document.body.webkitRequestFullScreen ||
                           document.body.mozRequestFullScreen ?
   (el) => {
@@ -15,9 +16,20 @@ const requestFullScreen = document.body.webkitRequestFullScreen ||
 class Console extends Component {
   constructor(props) {
     super(props)
-
+    this.state = {isFullscreen: false}
     this.awaitUnityConnection = this.awaitUnityConnection.bind(this)
     this.awaitSceneChange = this.awaitSceneChange.bind(this)
+  }
+
+  componentDidMount() {
+    if (requestFullScreen) {
+      document.onwebkitfullscreenchange =
+      document.onmozfullscreenchange =
+      document.MSFullscreenChange =
+      document.onwebkitfullscreenchange = (e) => {
+        this.setState({isFullscreen: !this.state.isFullscreen})
+      }
+    }
   }
 
   componentWillReceiveProps(props, prevProps) {

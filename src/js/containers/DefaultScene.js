@@ -10,6 +10,23 @@ class DefaultScene extends Component {
 
   componentDidMount() {
     this.anim = window.requestAnimationFrame(this.run)
+
+    this.props.ctx.fillStyle = 'rgba(40,40,40,1)'
+    this.props.ctx.font = "20px courier";
+    this.props.ctx.fillText(".EVE running",15,30)
+    this.props.ctx.fillText("Awaiting subject",15,60);
+
+    this.props.ctx.fillRect(212, 58, 10, 2)
+    this.blink = true
+    this.blinkInterval = window.setInterval(() => {
+      if (this.blink) {
+        this.props.ctx.clearRect(212, 58, 10, 2)
+        this.blink = false
+      } else {
+        this.props.ctx.fillRect(212, 58, 10, 2)
+        this.blink = true
+      }
+    }, 333)
   }
 
   componentWillUnmount() {
@@ -22,6 +39,7 @@ class DefaultScene extends Component {
 
     if (this.props.controls.onB) {
       ctx.clearRect(0, 0, screenWidth, screenHeight)
+      if (this.blinkInterval) window.clearInterval(this.blinkInterval)
     }
 
     if (this.props.touch) {
