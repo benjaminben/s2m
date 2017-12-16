@@ -38,8 +38,9 @@ func Images(res http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 
   var imgUrls []string
 
-  for v := range arr {
-    jq := jsonq.NewQuery(arr[v])
+  for i := range arr {
+    if (i == 20) {break}
+    jq := jsonq.NewQuery(arr[i])
     str, _ := jq.String("contentUrl")
     imgUrls = append(imgUrls, str)
   }

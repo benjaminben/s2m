@@ -30,6 +30,7 @@ class DefaultScene extends Component {
   }
 
   componentWillUnmount() {
+    if (this.blinkInterval) {window.clearInterval(this.blinkInterval)}
     this.props.ctx.clearRect(0, 0, this.props.screenWidth, this.props.screenHeight)
     window.cancelAnimationFrame(this.anim)
   }
